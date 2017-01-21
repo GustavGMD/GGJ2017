@@ -103,6 +103,10 @@ public class MapEditorController : MonoBehaviour {
     {
         foreach(GameObject o in layers[layer])
         {
+            if(o == null)
+            {
+                continue;
+            }
             o.SetActive(visible);
         }
     }
