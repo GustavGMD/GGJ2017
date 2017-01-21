@@ -3,6 +3,8 @@ using System.Collections;
 
 public class ShowPanels : MonoBehaviour {
 
+    public GameObject selectorPanel;                         //Store a reference to the Game Object OptionsPanel 
+    public GameObject selectorTint;                          //Store a reference to the Game Object OptionsTint 
     public GameObject optionsPanel;                         //Store a reference to the Game Object OptionsPanel 
     public GameObject optionsTint;                          //Store a reference to the Game Object OptionsTint 
     public GameObject creditsPanel;                         //Store a reference to the Game Object OptionsPanel 
@@ -12,6 +14,20 @@ public class ShowPanels : MonoBehaviour {
     public GameObject menuPanel;							//Store a reference to the Game Object MenuPanel 
 	public GameObject pausePanel;                           //Store a reference to the Game Object PausePanel 
 
+
+    //Call this function to activate and display the LevelSelector panel during the main menu
+    public void ShowSelectorPanel()
+    {
+        selectorPanel.SetActive(true);
+        selectorTint.SetActive(true);
+    }
+
+    //Call this function to deactivate and hide the LevelSelector panel during the main menu
+    public void HideSelectorPanel()
+    {
+        selectorPanel.SetActive(false);
+        selectorTint.SetActive(false);
+    }
 
     //Call this function to activate and display the Options panel during the main menu
     public void ShowOptionsPanel()

@@ -35,7 +35,7 @@ public class StartOptions : MonoBehaviour {
 	}
 
 
-    public void StartButtonClicked()
+    public void StartButtonClicked(int level)
     {
         //If changeMusicOnStart is true, fade out volume of music group of AudioMixer by calling FadeDown function of PlayMusic, using length of fadeColorAnimationClip as time. 
         //To change fade time, change length of animation "FadeToColor"
@@ -58,7 +58,8 @@ public class StartOptions : MonoBehaviour {
         else
         {
             //Call the StartGameInScene function to start game without loading a new scene.
-            StartGameInScene();
+            //StartGameInScene();
+            CallLevel(level);
         }
     }
 
@@ -109,7 +110,6 @@ public class StartOptions : MonoBehaviour {
 		}	
 	}
 
-
 	public void LoadDelayed()
 	{
 		//Pause button now works if escape is pressed since we are no longer in Main menu.
@@ -131,7 +131,7 @@ public class StartOptions : MonoBehaviour {
     public void StartGameInScene()
     {
         inMainMenu = false;
-        SceneManager.LoadScene("Ingame");
+        SceneManager.LoadScene(Application.loadedLevel);
     }
 
     public void CallMenuScene()
@@ -140,6 +140,11 @@ public class StartOptions : MonoBehaviour {
         SceneManager.LoadScene("MenuScene");
     }
 
+    public void CallLevel(int level)
+    {
+        inMainMenu = false;
+        SceneManager.LoadScene("Level" + level);
+    }
 
     public void PlayNewMusic()
 	{
