@@ -4,7 +4,7 @@ using UnityEngine.Audio;
 using UnityEngine.SceneManagement;
 
 
-public class StartOptions : MonoBehaviour {
+public class StartCredits : MonoBehaviour {
 
 
 
