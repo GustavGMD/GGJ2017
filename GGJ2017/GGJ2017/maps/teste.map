@@ -1,0 +1,29 @@
+layer 0
+wall, -2.5, 2.5
+wall, -1.5, 2.5
+wall, -0.5, 2.5
+wall, 0.5, 2.5
+wall, 1.5, 2.5
+wall, 2.5, 2.5
+wall, 3.5, 2.5
+wall, 4.5, 2.5
+wall, 4.5, 1.5
+wall, 4.5, 0.5
+wall, 4.5, -0.5
+wall, 4.5, -1.5
+wall, 4.5, -2.5
+wall, 3.5, -2.5
+wall, 2.5, -2.5
+wall, 1.5, -2.5
+wall, 0.5, -2.5
+wall, -0.5, -2.5
+wall, -1.5, -2.5
+wall, -2.5, -2.5
+wall, -2.5, -1.5
+wall, -2.5, -0.5
+wall, -2.5, 0.5
+wall, -2.5, 1.5
+layer 1
+layer 2
+layer 3
+layer 4

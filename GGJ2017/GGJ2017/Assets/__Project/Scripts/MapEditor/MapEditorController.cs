@@ -10,7 +10,7 @@ public class MapEditorController : MonoBehaviour {
     public Dropdown fileNameLoadDropdown;
     public MapEditorTileDescriptor[] tileDescriptors = new MapEditorTileDescriptor[0];
     private List<GameObject> objects = new List<GameObject>();
-    private List<GameObject>[] layers = new List<GameObject>[5];
+    public List<GameObject>[] layers = new List<GameObject>[5];
    
     public Toggle[] layerToggles;
     public Dropdown layerDropdown;
@@ -71,8 +71,11 @@ public class MapEditorController : MonoBehaviour {
         {
             Load();
         }
+
+       
     }
 	
+
 	// Update is called once per frame
 	void Update () {
 		
@@ -91,6 +94,10 @@ public class MapEditorController : MonoBehaviour {
         int.TryParse(layerDropdown.options[layerDropdown.value].text, out currentLayer);
     }
 
+    public void setLayer(int layer)
+    {
+        currentLayer = layer;
+    }
     public void LayerMarked()
     {
         for(int i = 0; i < layerToggles.Length; i++)
@@ -120,6 +127,7 @@ public class MapEditorController : MonoBehaviour {
             return;
         }
         LoadWithName(filename);
+        setLayer(0);
     }
     
     public void SaveWithName(string filename)
@@ -235,13 +243,14 @@ public class MapEditorController : MonoBehaviour {
     {
         List<GameObject> objects = new List<GameObject>();
         float halfBrush = brushSize / 2;
-
+        
         foreach (GameObject o in layers[currentLayer])
         {
             if (o == null)
             {
                 continue;
             }
+            
             if (o.transform.position.x > position.x - halfBrush &&
                 o.transform.position.x < position.x + halfBrush &&
                 o.transform.position.y > position.y - halfBrush &&
@@ -255,7 +264,6 @@ public class MapEditorController : MonoBehaviour {
 
     public void removeInArea(Vector3 position, float brushSize)
     {
-
         List<GameObject> objects = objectsInArea(position, brushSize);
         foreach (GameObject o in objects)
         {
