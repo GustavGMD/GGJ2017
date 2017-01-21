@@ -9,7 +9,6 @@ public class PlayerController : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-		movementspeed = 5.0f;
     }
 	
 	// Update is called once per frame
