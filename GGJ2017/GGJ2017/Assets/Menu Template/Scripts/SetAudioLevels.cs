@@ -20,7 +20,7 @@ public class SetAudioLevels : MonoBehaviour {
 			AudioManagerSingleton.instance.musicVolume = musicLvl;
 			AudioManagerSingleton.instance.ChangeVolume (AudioManagerSingleton.AudioType.MUSIC, musicLvl);
 		}
-		mainMixer.SetFloat("musicVol", musicLvl);
+//		mainMixer.SetFloat("musicVol", musicLvl);
 	}
 
 	//Call this function and pass in the float parameter sfxLevel to set the volume of the AudioMixerGroup SoundFx in mainMixer
@@ -30,13 +30,16 @@ public class SetAudioLevels : MonoBehaviour {
 			AudioManagerSingleton.instance.sfxVolume = sfxLevel;
 			AudioManagerSingleton.instance.ChangeVolume (AudioManagerSingleton.AudioType.SFX, sfxLevel);
 		}
-		mainMixer.SetFloat("sfxVol", sfxLevel);
+//		mainMixer.SetFloat("sfxVol", sfxLevel);
 	}
 
 	public void SetMasterVolume(float masterLvl){
+		
 		if (AudioManagerSingleton.instance !=null && AudioManagerSingleton.instance.masterVolume != null) {
 			AudioManagerSingleton.instance.masterVolume = masterLvl;
 			AudioManagerSingleton.instance.ChangeVolume();
 		}
 	}
+
+
 }
