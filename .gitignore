@@ -28,3 +28,5 @@ sysinfo.txt
 # Builds
 *.apk
 *.unitypackage
+TestSceneHenrique.unity
+TestSceneHenrique.unity.meta
