@@ -5,11 +5,11 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float movementspeed;
+    public ShowPanels panel;
 
-	// Use this for initialization
-	void Start () {
-		movementspeed = 5.0f;
-	}
+    // Use this for initialization
+    void Start () {
+    }
 	
 	// Update is called once per frame
 	void Update () {
@@ -33,7 +33,8 @@ public class PlayerController : MonoBehaviour {
 
     public void DefeatRoutine()
     {
-        Application.LoadLevel(Application.loadedLevel);
+        //Application.LoadLevel(Application.loadedLevel);
+        panel.ShowGameOverPanel();
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

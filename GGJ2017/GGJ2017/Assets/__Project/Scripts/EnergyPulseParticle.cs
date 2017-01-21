@@ -79,17 +79,26 @@ public class EnergyPulseParticle : MonoBehaviour {
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if(collision.gameObject.tag == "obstacle")
+        if (collision.gameObject.tag == "obstacle")
         {
             energyLevel -= collision.gameObject.GetComponent<Obstacle>().energyAbsorption;
-            if(energyLevel <= 0)
+            if (energyLevel <= 0)
             {
                 OnDestroyRoutine();
             }
             //_velocityUpdateScheduled = true;
             UpdateVelocity();
         }
-        else if(collision.gameObject.tag == "player")
+        else if (collision.gameObject.tag == "destructable")
+        {
+            energyLevel -= collision.gameObject.GetComponent<Obstacle>().energyAbsorption;
+            if (energyLevel <= 0)
+            {
+                OnDestroyRoutine();
+            }
+            Destroy(collision.gameObject);
+        }
+        else if (collision.gameObject.tag == "player")
         {
             //kill the player? Maybe this is better done at player's script...
         }
