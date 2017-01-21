@@ -35,6 +35,7 @@ public class PlayerController : MonoBehaviour {
     {
         //Application.LoadLevel(Application.loadedLevel);
         panel.ShowGameOverPanel();
+        //Time.timeScale = 0;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)

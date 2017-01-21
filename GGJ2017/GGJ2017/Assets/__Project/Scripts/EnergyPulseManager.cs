@@ -3,10 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class EnergyPulseManager : MonoBehaviour {
-
-    public bool connectedWave = true;
+    
     public GameObject pulseParticlesModel;
-    public GameObject pulseParticlesModel2;
     public int pulseParticlesPoolSize = 40;
     public List<GameObject> pulseParticlesInactivePool;
     public List<GameObject> pulseParticlesActivePool;
@@ -48,21 +46,10 @@ public class EnergyPulseManager : MonoBehaviour {
 
     public void InitializePulseParticlePool()
     {
-        if (!connectedWave)
-        {
-            particlesPerPulse = 32;
-        }
         for (int i = 0; i < pulseParticlesPoolSize; i++)
         {
-            GameObject __tempObject;
-            if (connectedWave)
-            {
-                __tempObject = (GameObject)Instantiate(pulseParticlesModel2, Vector3.zero, Quaternion.identity);
-            }
-            else
-            {
-                __tempObject = (GameObject)Instantiate(pulseParticlesModel, Vector3.zero, Quaternion.identity);
-            }
+            GameObject __tempObject;            
+            __tempObject = (GameObject)Instantiate(pulseParticlesModel, Vector3.zero, Quaternion.identity);
             __tempObject.SetActive(false);
             __tempObject.GetComponent<EnergyPulseParticle>().pulseForce = pulseForce;
             __tempObject.GetComponent<EnergyPulseParticle>().onDestroy += delegate(GameObject p_Object)
