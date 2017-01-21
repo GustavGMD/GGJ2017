@@ -9,18 +9,24 @@ public class EnergyPulseParticle : MonoBehaviour {
     
     public float timeLimit = 2;
     public float count = 0;
+    public float energyLevel = 2;
+    public float pulseForce = 0;
 
     public LineRenderer lineRenderer;
     public List<GameObject> lineVertices;
+
+    private bool _velocityUpdateScheduled = false;
 
 	public void EmissionStarted(GameObject[] p_vertices)
     {
         lineVertices.Clear();
         for (int i = 0; i < p_vertices.Length; i++)
         {
+            p_vertices[i].GetComponent<EnergyPulseParticle>().onDestroy += RemoveVerticeOnDestroy;
             lineVertices.Add(p_vertices[i]);
         }
         UpdateLine();
+        UpdateVelocity();
         count = 0;
     }
 
@@ -32,9 +38,14 @@ public class EnergyPulseParticle : MonoBehaviour {
         }
         else
         {
-            onDestroy(gameObject);
+            OnDestroyRoutine();
         }
         UpdateLine();
+        //if (_velocityUpdateScheduled)
+        //{
+        //    UpdateVelocity();
+        //   _velocityUpdateScheduled = false;
+        //}
     }
 
     public void UpdateLine()
@@ -50,16 +61,54 @@ public class EnergyPulseParticle : MonoBehaviour {
         {
             if (lineVertices.Count > 1)
             {
+                lineRenderer.numPositions = 3;
                 return new Vector3[] { lineVertices[0].transform.position, transform.position, lineVertices[1].transform.position };
             }
             else
             {
-                return new Vector3[] { lineVertices[0].transform.position, transform.position };
+                lineRenderer.numPositions = 2;
+                return new Vector3[] { lineVertices[0].transform.position, transform.position };                
             }
         }
         else
         {
+            lineRenderer.numPositions = 1;
             return new Vector3[] { transform.position };
         }
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if(collision.gameObject.tag == "obstacle")
+        {
+            energyLevel -= collision.gameObject.GetComponent<Obstacle>().energyAbsorption;
+            if(energyLevel <= 0)
+            {
+                OnDestroyRoutine();
+            }
+            //_velocityUpdateScheduled = true;
+            UpdateVelocity();
+        }
+        else if(collision.gameObject.tag == "player")
+        {
+            //kill the player? Maybe this is better done at player's script...
+        }
+    }
+
+    public void UpdateVelocity()
+    {
+        GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity.normalized * (energyLevel / 2) * pulseForce;
+        GetComponent<TrailRenderer>().material.color = new Color(1, 0, (float)energyLevel / 3, (float)energyLevel / 3);
+    }
+
+    public void OnDestroyRoutine()
+    {
+        onDestroy(gameObject);
+    }
+
+    public void RemoveVerticeOnDestroy(GameObject p_object)
+    {
+        p_object.GetComponent<EnergyPulseParticle>().onDestroy -= RemoveVerticeOnDestroy;
+        lineVertices.Remove(p_object);
     }
 }
