@@ -6,7 +6,6 @@ using System.IO;
 public class MapEditorController : MonoBehaviour {
     public string directory;
     public string loadMapName;
-    public bool ui = false;
     public InputField fileNameInputField;
     public Dropdown fileNameLoadDropdown;
     public MapEditorTileDescriptor[] tileDescriptors = new MapEditorTileDescriptor[0];
@@ -146,7 +145,7 @@ public class MapEditorController : MonoBehaviour {
             {
                 GameObject go = Instantiate(descriptor.prefab);
                 MapEditorTile tile = go.AddComponent<MapEditorTile>();
-                go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, currentLayer);
+                go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, -currentLayer);
                 tile.type = typeString;
                 layers[currentLayer].Add(go);
                 return go;

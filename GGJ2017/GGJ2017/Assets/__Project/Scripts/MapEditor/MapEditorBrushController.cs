@@ -93,6 +93,9 @@ public class MapEditorBrushController : MonoBehaviour {
         {
             keyBrushes[keycodes[i]] = i;
         }
+
+        brush = -1;
+        saveSceneUi.SetActive(true);
     }
 
     void UpdateInput()
@@ -167,7 +170,7 @@ public class MapEditorBrushController : MonoBehaviour {
 
         Vector3 position;
         position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        position.z = mapEditorController.currentLayer ;
+        position.z = -mapEditorController.currentLayer ;
         brushInstance.transform.position = position;
         lockGrid();
         if (Input.GetMouseButton(0))
