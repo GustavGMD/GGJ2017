@@ -23,6 +23,7 @@ public class MapEditorBrushController : MonoBehaviour {
 
     private Dictionary<KeyCode, int> keyBrushes = new Dictionary<KeyCode, int>();
 
+ 
     public void listBrushes()
     {
         brushDropdown.ClearOptions();
@@ -60,13 +61,13 @@ public class MapEditorBrushController : MonoBehaviour {
 
             GameObject hline = Instantiate(gridLinePrefab);
             LineRenderer hlineRenderer = hline.GetComponent<LineRenderer>();
-            hlineRenderer.SetPosition(0, new Vector3(-lineSize, 0, position));
-            hlineRenderer.SetPosition(1, new Vector3(lineSize, 0, position));
+            hlineRenderer.SetPosition(0, new Vector3(-lineSize, position, 0));
+            hlineRenderer.SetPosition(1, new Vector3(lineSize, position, 0));
 
             GameObject vline = Instantiate(gridLinePrefab);
             LineRenderer vlineRenderer = vline.GetComponent<LineRenderer>();
-            vlineRenderer.SetPosition(0, new Vector3(position, 0, -lineSize));
-            vlineRenderer.SetPosition(1, new Vector3(position, 0, lineSize));
+            vlineRenderer.SetPosition(0, new Vector3(position, -lineSize, 0));
+            vlineRenderer.SetPosition(1, new Vector3(position, lineSize, 0));
 
 
         }
@@ -166,7 +167,7 @@ public class MapEditorBrushController : MonoBehaviour {
 
         Vector3 position;
         position = Camera.main.ScreenToWorldPoint(new Vector3(Input.mousePosition.x, Input.mousePosition.y, Camera.main.nearClipPlane));
-        position.y = mapEditorController.currentLayer; ;
+        position.z = mapEditorController.currentLayer ;
         brushInstance.transform.position = position;
         lockGrid();
         if (Input.GetMouseButton(0))
@@ -189,7 +190,7 @@ public class MapEditorBrushController : MonoBehaviour {
         
         Vector3 pos = brushInstance.transform.position;
         pos.x = (Mathf.Floor(pos.x / gridSize)) + halfGridSize;
-        pos.z = (Mathf.Floor(pos.z / gridSize)) + halfGridSize;
+        pos.y = (Mathf.Floor(pos.y / gridSize)) + halfGridSize;
         brushInstance.transform.position = pos;
     }
 
@@ -198,7 +199,7 @@ public class MapEditorBrushController : MonoBehaviour {
 
         GameObject go = mapEditorController.instantiateWithType(descriptor.type);
         go.transform.position = 
-            new Vector3(brushInstance.transform.position.x, go.transform.position.y, brushInstance.transform.position.z);
+            new Vector3(brushInstance.transform.position.x, brushInstance.transform.position.y, go.transform.position.z);
         
     }
 

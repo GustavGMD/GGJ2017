@@ -8,8 +8,8 @@ public class MapEditorTile : MonoBehaviour {
     public string toSaveString()
     {
         string str;
-        //type, x, z
-        str = type + ", " + transform.position.x + ", " + transform.position.z;
+        //type, x, y
+        str = type + ", " + transform.position.x + ", " + transform.position.y;
         
         return str;
     }

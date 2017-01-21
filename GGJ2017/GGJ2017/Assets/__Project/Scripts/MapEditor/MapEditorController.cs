@@ -17,7 +17,13 @@ public class MapEditorController : MonoBehaviour {
     public Dropdown layerDropdown;
     public int currentLayer = 0;
 
-    
+    void Awake()
+    {
+        if (Application.loadedLevelName != "MapEditor")
+        {
+            GetComponent<MapEditorBrushController>().enabled = false;
+        }
+    }
 	// Use this for initialization
 	void Start ()
     {
@@ -140,7 +146,7 @@ public class MapEditorController : MonoBehaviour {
             {
                 GameObject go = Instantiate(descriptor.prefab);
                 MapEditorTile tile = go.AddComponent<MapEditorTile>();
-                go.transform.position = new Vector3(go.transform.position.x, currentLayer, go.transform.position.z);
+                go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, currentLayer);
                 tile.type = typeString;
                 layers[currentLayer].Add(go);
                 return go;
@@ -161,13 +167,13 @@ public class MapEditorController : MonoBehaviour {
         string xString = values[1].Trim();
         string zString = values[2].Trim();
         
-        float x, z;
+        float x, y;
         if (!float.TryParse(xString, out x))
         {
             Debug.Log("Invalid x value in line: " + loadString);
             return null;
         }
-        if (!float.TryParse(zString, out z))
+        if (!float.TryParse(zString, out y))
         {
             Debug.Log("Invalid z value in line: " + loadString);
             return null;
@@ -179,7 +185,7 @@ public class MapEditorController : MonoBehaviour {
             return null;
         }
 
-        go.transform.position = new Vector3(x, go.transform.position.y, z);
+        go.transform.position = new Vector3(x, y, go.transform.position.z);
         
         return go;
     }
@@ -221,8 +227,8 @@ public class MapEditorController : MonoBehaviour {
             }
             if (o.transform.position.x > position.x - halfBrush &&
                 o.transform.position.x < position.x + halfBrush &&
-                o.transform.position.z > position.z - halfBrush &&
-                o.transform.position.z < position.z + halfBrush)
+                o.transform.position.y > position.y - halfBrush &&
+                o.transform.position.y < position.y + halfBrush)
             {
                 objects.Add(o);
             }
