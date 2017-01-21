@@ -14,21 +14,36 @@ public class EnergyPulseManager : MonoBehaviour {
     public int particlesPerPulse = 15;
     public float pulseForce = 10;
 
+	public bool bulletHell;
+	private float timeSpwan;
+
+	private float timeLeft;
+
     // Use this for initialization
     void Start () {
         InitializePulseParticlePool();
+		timeSpwan = 5f;
+		timeLeft = timeSpwan;
 	}
 	
 	// Update is called once per frame
 	void Update () {
-        if (Input.GetKeyDown(KeyCode.E))
-        {
-            EmitParticles();
-        }
-        if (Input.GetMouseButtonDown(0))
-        {
-            EmitParticles();
-        }
+		if (bulletHell) {
+			timeLeft -= Time.deltaTime;
+			if (timeLeft < 0) {
+				timeLeft = timeSpwan;
+				EmitParticles ();
+			}
+		} else {
+			if (Input.GetKeyDown(KeyCode.E))
+			{
+				EmitParticles();
+			}
+			if (Input.GetMouseButtonDown(0))
+			{
+				EmitParticles();
+			}
+		}
     }
 
     public void InitializePulseParticlePool()
