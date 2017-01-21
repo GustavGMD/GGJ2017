@@ -63,12 +63,13 @@ public class MapEditorBrushController : MonoBehaviour {
             LineRenderer hlineRenderer = hline.GetComponent<LineRenderer>();
             hlineRenderer.SetPosition(0, new Vector3(-lineSize, position, 0));
             hlineRenderer.SetPosition(1, new Vector3(lineSize, position, 0));
+            hline.transform.parent = gridObject.transform;
 
             GameObject vline = Instantiate(gridLinePrefab);
             LineRenderer vlineRenderer = vline.GetComponent<LineRenderer>();
             vlineRenderer.SetPosition(0, new Vector3(position, -lineSize, 0));
             vlineRenderer.SetPosition(1, new Vector3(position, lineSize, 0));
-
+            vline.transform.parent = gridObject.transform;
 
         }
     }
@@ -182,6 +183,7 @@ public class MapEditorBrushController : MonoBehaviour {
         }
         if (Input.GetMouseButton(1))
         {
+            Debug.Log(brushInstance.transform.position);
             mapEditorController.removeInArea(brushInstance.transform.position, gridSize);
         }
     }
