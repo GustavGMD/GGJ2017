@@ -9,6 +9,9 @@ public class EnergyPulseManager : MonoBehaviour {
     public List<GameObject> pulseParticlesInactivePool;
     public List<GameObject> pulseParticlesActivePool;
 
+    public int particlesPerPulse = 15;
+    public float pulseForce = 10;
+
     // Use this for initialization
     void Start () {
         InitializePulseParticlePool();
@@ -16,7 +19,10 @@ public class EnergyPulseManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
+        if (Input.GetKeyDown(KeyCode.A))
+        {
+            EmitParticles();
+        }
 	}
 
     public void InitializePulseParticlePool()
@@ -38,6 +44,29 @@ public class EnergyPulseManager : MonoBehaviour {
 
     public void EmitParticles()
     {
+        GameObject __firstObject = null;
+        //transform.position = new Vector3(Random.Range(-30, 30), Random.Range(-30, 30));
+        for (int i = 0; i < particlesPerPulse; i++)
+        {
+            if (i == 0) __firstObject = pulseParticlesInactivePool[0];
+            float __angle = 2 * Mathf.PI * ((float)i / particlesPerPulse);
+            pulseParticlesInactivePool[0].SetActive(true);
+            pulseParticlesInactivePool[0].GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * pulseForce;
+            GameObject[] lineVertices;
+            if (i > 0)
+            {
+                lineVertices = new GameObject[] { pulseParticlesActivePool[pulseParticlesActivePool.Count-1] };
+            }
+            else
+            {
+                lineVertices = new GameObject[0];
+            }
+            pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().EmissionStarted(lineVertices);
+            pulseParticlesInactivePool[0].transform.position = (Vector2)transform.position;
 
+            pulseParticlesActivePool.Add(pulseParticlesInactivePool[0]);
+            pulseParticlesInactivePool.RemoveAt(0);
+        }
+        __firstObject.GetComponent<EnergyPulseParticle>().EmissionStarted(new GameObject[] { pulseParticlesActivePool[pulseParticlesActivePool.Count - 1] });
     }
 }
