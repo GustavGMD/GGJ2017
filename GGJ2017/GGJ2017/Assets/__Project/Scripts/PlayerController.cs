@@ -6,6 +6,7 @@ public class PlayerController : MonoBehaviour {
 
 	public float movementspeed;
     public ShowPanels panel;
+    public Animator anim;
 
     // Use this for initialization
     void Start () {
@@ -14,21 +15,29 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if( Input.GetKey( KeyCode.A) || Input.GetKey( KeyCode.LeftArrow) ){
-			transform.Translate (Vector3.left * movementspeed * Time.deltaTime); 
+		if(Input.GetAxis("Horizontal") < 0){
+			transform.Translate (Vector3.left * movementspeed * Time.deltaTime);
+            anim.SetFloat("horizontalspeed", GetComponent<Rigidbody2D>().velocity.x);
 		}
 
-		if( Input.GetKey( KeyCode.W) || Input.GetKey( KeyCode.UpArrow) ){
-			transform.Translate (Vector3.up * movementspeed * Time.deltaTime); 
-		}
+		if(Input.GetAxis("Vertical") > 0)
+        {
+			transform.Translate (Vector3.up * movementspeed * Time.deltaTime);
+            anim.SetFloat("verticalspeed", GetComponent<Rigidbody2D>().velocity.y);
+        }
 
-		if( Input.GetKey( KeyCode.S) || Input.GetKey( KeyCode.DownArrow) ){
-			transform.Translate (Vector3.down * movementspeed * Time.deltaTime); 
-		}
+		if(Input.GetAxis("Vertical") < 0)
+        {
+			transform.Translate (Vector3.down * movementspeed * Time.deltaTime);
+            anim.SetFloat("verticalspeed", GetComponent<Rigidbody2D>().velocity.y);
+        }
 
-		if( Input.GetKey( KeyCode.D) || Input.GetKey( KeyCode.RightArrow) ){
-			transform.Translate (Vector3.right * movementspeed * Time.deltaTime); 
-		}
+		if(Input.GetAxis("Horizontal") > 0){
+			transform.Translate (Vector3.right * movementspeed * Time.deltaTime);
+            anim.SetFloat("horizontalspeed", GetComponent<Rigidbody2D>().velocity.x);
+        }
+
+        anim.SetFloat("movementspeed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.magnitude));
 	}
 
     public void DefeatRoutine()
