@@ -116,6 +116,10 @@ public class MapEditorController : MonoBehaviour {
             fileWriter.WriteLine("layer " + i.ToString());
             foreach(GameObject o in layers[i])
             {
+                if (o == null)
+                {
+                    continue;
+                }
                 MapEditorTile tile = o.GetComponent<MapEditorTile>();
                 fileWriter.WriteLine(tile.toSaveString());
             }
