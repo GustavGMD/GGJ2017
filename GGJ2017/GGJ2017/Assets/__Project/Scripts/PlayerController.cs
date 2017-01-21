@@ -7,6 +7,8 @@ public class PlayerController : MonoBehaviour {
 	public float movementspeed;
     public ShowPanels panel;
     public Animator anim;
+    public float verticalSpeed = 0;
+    public float horizontalSpeed = 0;
 
     // Use this for initialization
     void Start () {
@@ -15,30 +17,13 @@ public class PlayerController : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		
-		if(Input.GetAxis("Horizontal") < 0){
-			transform.Translate (Vector3.left * movementspeed * Time.deltaTime);
-            anim.SetFloat("horizontalspeed", GetComponent<Rigidbody2D>().velocity.x);
-		}
+        horizontalSpeed = Input.GetAxis("Horizontal");
+        verticalSpeed = Input.GetAxis("Vertical");
+        transform.Translate(new Vector3(horizontalSpeed, verticalSpeed, 0) * Time.deltaTime * movementspeed);
 
-		if(Input.GetAxis("Vertical") > 0)
-        {
-			transform.Translate (Vector3.up * movementspeed * Time.deltaTime);
-            anim.SetFloat("verticalspeed", GetComponent<Rigidbody2D>().velocity.y);
-        }
-
-		if(Input.GetAxis("Vertical") < 0)
-        {
-			transform.Translate (Vector3.down * movementspeed * Time.deltaTime);
-            anim.SetFloat("verticalspeed", GetComponent<Rigidbody2D>().velocity.y);
-        }
-
-		if(Input.GetAxis("Horizontal") > 0){
-			transform.Translate (Vector3.right * movementspeed * Time.deltaTime);
-            anim.SetFloat("horizontalspeed", GetComponent<Rigidbody2D>().velocity.x);
-        }
-
-        anim.SetFloat("movementspeed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.magnitude));
-	}
+        anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
+        anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
+    }
 
     public void DefeatRoutine()
     {

@@ -36,11 +36,7 @@ public class EnergyPulseManager : MonoBehaviour {
 				EmitParticles ();
 			}
 		} else {
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				EmitParticles();
-			}
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				EmitParticles();
 			}
