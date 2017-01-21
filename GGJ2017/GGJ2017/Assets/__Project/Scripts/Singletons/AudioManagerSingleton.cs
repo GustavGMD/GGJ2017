@@ -9,7 +9,7 @@ public class AudioManagerSingleton : MonoBehaviour {
     /// </summary>
 	public enum AudioClipName
     {
-        TEST_SOUND,
+        MENU_SOUND,
         ANOTHER_TEST_SOUND,
         TEST_MUSIC,
         COOL_MUSIC,
@@ -134,7 +134,13 @@ public class AudioManagerSingleton : MonoBehaviour {
 
             _audioSourceInactivePool[0].clip = _audioClips[(int)p_audioClipName];
             _audioSourceInactivePool[0].loop = p_loop;
-            _audioSourceInactivePool[0].volume = ((float)__parameters[4] / _volumeIntegerBase) * masterVolume;
+			float soundType;
+			if (p_audioType == AudioType.MUSIC) {
+				soundType = musicVolume;
+			} else {
+				soundType = sfxVolume;
+			}
+			_audioSourceInactivePool[0].volume = ((float)__parameters[4] / _volumeIntegerBase) * masterVolume * soundType;
             _audioSourceInactivePool[0].Play();
 
             AddToActiveList(__parameters);
