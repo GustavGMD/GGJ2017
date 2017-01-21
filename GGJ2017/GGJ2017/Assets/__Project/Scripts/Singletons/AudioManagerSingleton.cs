@@ -34,6 +34,10 @@ public class AudioManagerSingleton : MonoBehaviour {
     /// </summary>
     public float masterVolume = 1;
 
+	public float sfxVolume = 1;
+
+	public float musicVolume = 1;
+
     private bool _initialized = false;
     private List<AudioSource> _audioSourceInactivePool;
     private List<AudioSource> _audioSourceActivePool;
@@ -311,4 +315,25 @@ public class AudioManagerSingleton : MonoBehaviour {
             }
         }
     }
+
+	public void ChangeVolume(AudioType type, float p_volume)
+	{
+		for (int i = 0; i < _audioSourceActivePoolParameters.Count; i++)
+		{
+			if ( (AudioType)_audioSourceActivePoolParameters[i][2] == type)
+			{
+				_audioSourceActivePoolParameters[i][4] = (int)(p_volume * _volumeIntegerBase);
+				_audioSourceActivePool[i].volume = ((float)_audioSourceActivePoolParameters[i][4] / _volumeIntegerBase) * masterVolume;
+			}
+		}
+	}
+
+	public void ChangeVolume()
+	{
+		for (int i = 0; i < _audioSourceActivePoolParameters.Count; i++)
+		{
+			_audioSourceActivePoolParameters[i][4] = (int)(masterVolume * _volumeIntegerBase);
+			_audioSourceActivePool[i].volume = ((float)_audioSourceActivePoolParameters[i][4] / _volumeIntegerBase) * masterVolume;
+		}
+	}
 }
