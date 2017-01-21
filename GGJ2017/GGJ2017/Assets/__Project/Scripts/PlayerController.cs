@@ -29,6 +29,19 @@ public class PlayerController : MonoBehaviour {
 		if( Input.GetKey( KeyCode.D) || Input.GetKey( KeyCode.RightArrow) ){
 			transform.Translate (Vector3.right * movementspeed * Time.deltaTime); 
 		}
-
 	}
+
+    public void DefeatRoutine()
+    {
+        Application.LoadLevel(Application.loadedLevel);
+    }
+
+    public void OnCollisionEnter2D(Collision2D collision)
+    {
+        if (collision.gameObject.tag == "pulseElement")
+        {
+            //kill the player? Maybe this is better done at player's script...
+            DefeatRoutine();
+        }
+    }
 }

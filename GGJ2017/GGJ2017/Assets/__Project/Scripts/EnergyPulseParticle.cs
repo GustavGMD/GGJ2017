@@ -15,6 +15,8 @@ public class EnergyPulseParticle : MonoBehaviour {
     public LineRenderer lineRenderer;
     public List<GameObject> lineVertices;
 
+    private bool _velocityUpdateScheduled = false;
+
 	public void EmissionStarted(GameObject[] p_vertices)
     {
         lineVertices.Clear();
@@ -24,6 +26,7 @@ public class EnergyPulseParticle : MonoBehaviour {
             lineVertices.Add(p_vertices[i]);
         }
         UpdateLine();
+        UpdateVelocity();
         count = 0;
     }
 
@@ -38,6 +41,11 @@ public class EnergyPulseParticle : MonoBehaviour {
             OnDestroyRoutine();
         }
         UpdateLine();
+        //if (_velocityUpdateScheduled)
+        //{
+        //    UpdateVelocity();
+        //   _velocityUpdateScheduled = false;
+        //}
     }
 
     public void UpdateLine()
@@ -74,11 +82,12 @@ public class EnergyPulseParticle : MonoBehaviour {
         if(collision.gameObject.tag == "obstacle")
         {
             energyLevel -= collision.gameObject.GetComponent<Obstacle>().energyAbsorption;
-            UpdateVelocity();
             if(energyLevel <= 0)
             {
                 OnDestroyRoutine();
             }
+            //_velocityUpdateScheduled = true;
+            UpdateVelocity();
         }
         else if(collision.gameObject.tag == "player")
         {
@@ -89,6 +98,7 @@ public class EnergyPulseParticle : MonoBehaviour {
     public void UpdateVelocity()
     {
         GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity.normalized * (energyLevel / 2) * pulseForce;
+        GetComponent<TrailRenderer>().material.color = new Color(1, 0, (float)energyLevel / 3, (float)energyLevel / 3);
     }
 
     public void OnDestroyRoutine()
