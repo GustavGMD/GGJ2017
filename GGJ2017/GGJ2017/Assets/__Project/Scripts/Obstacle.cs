@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class Obstacle : MonoBehaviour {
 
+    public int energyAbsorption = 1;
+
 	// Use this for initialization
 	void Start () {
 		
