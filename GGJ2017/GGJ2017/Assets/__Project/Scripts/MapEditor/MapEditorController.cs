@@ -40,7 +40,7 @@ public class MapEditorController : MonoBehaviour {
         }
         else
         {
-            LoadWithName(loadMapName);
+            //LoadWithName(loadMapName);
         }
         
     }
