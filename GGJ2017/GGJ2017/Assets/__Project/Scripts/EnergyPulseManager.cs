@@ -13,23 +13,26 @@ public class EnergyPulseManager : MonoBehaviour {
     public float pulseForce = 10;
 
 	public bool bulletHell;
-	private float timeSpwan;
-
-	private float timeLeft;
+	public float _timeSpwan;
+	public float _timeLeft;
+    private float _originalScale;
 
     // Use this for initialization
     void Start () {
         InitializePulseParticlePool();
-		timeSpwan = 5f;
-		timeLeft = timeSpwan;
+		_timeSpwan = 5f;
+		_timeLeft = _timeSpwan;
+        _originalScale = transform.localScale.x;
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		if (bulletHell) {
-			timeLeft -= Time.deltaTime;
-			if (timeLeft < 0) {
-				timeLeft = timeSpwan;
+			_timeLeft -= Time.deltaTime;
+            gameObject.transform.localScale = new Vector3(1, 1, 1) * (_originalScale + (_timeLeft / _timeSpwan)*2);
+            GetComponent<Renderer>().material.color = new Color(1- (_timeLeft / _timeSpwan), 0, 0, 1);
+            if (_timeLeft < 0) {
+				_timeLeft = _timeSpwan;
 				EmitParticles ();
 			}
 		} else {
