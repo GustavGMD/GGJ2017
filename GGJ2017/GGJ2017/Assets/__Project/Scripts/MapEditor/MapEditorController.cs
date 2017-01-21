@@ -46,18 +46,28 @@ public class MapEditorController : MonoBehaviour {
 
     void loadMapList()
     {
-        DirectoryInfo dir = new DirectoryInfo(directory);
-        FileInfo[] files = dir.GetFiles("*.map", SearchOption.AllDirectories);
         fileNameLoadDropdown.ClearOptions();
         List<string> options = new List<string>();
         options.Add("limpar");
-        foreach (FileInfo file in files)
+
+        DirectoryInfo dir = new DirectoryInfo(directory);
+        if(!dir.Exists)
         {
-            options.Add(file.Name);
+            Directory.CreateDirectory(directory);
+
+        }
+        else
+        {
+            FileInfo[] files = dir.GetFiles("*.map", SearchOption.AllDirectories);
+            foreach (FileInfo file in files)
+            {
+                options.Add(file.Name);
+            }
+
         }
 
         fileNameLoadDropdown.AddOptions(options);
-        if(options.Count > 1)
+        if (options.Count > 1)
         {
             Load();
         }
