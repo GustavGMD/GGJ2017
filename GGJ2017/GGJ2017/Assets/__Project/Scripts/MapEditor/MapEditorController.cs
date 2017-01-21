@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 using System.IO;
+
 public class MapEditorController : MonoBehaviour {
     public string directory;
     public string loadMapName;
@@ -39,7 +40,7 @@ public class MapEditorController : MonoBehaviour {
         }
         else
         {
-            LoadWithName(loadMapName);
+            //LoadWithName(loadMapName);
         }
         
     }
@@ -180,6 +181,7 @@ public class MapEditorController : MonoBehaviour {
 
         return null;
     }
+
     public GameObject createFromLoadString(string loadString)
     {
         string[] values = loadString.Split(',');
