@@ -328,8 +328,8 @@ public class AudioManagerSingleton : MonoBehaviour {
 		{
 			if ( (AudioType)_audioSourceActivePoolParameters[i][2] == type)
 			{
-				_audioSourceActivePoolParameters[i][4] = (int)(p_volume * _volumeIntegerBase);
-				_audioSourceActivePool[i].volume = ((float)_audioSourceActivePoolParameters[i][4] / _volumeIntegerBase) * masterVolume;
+//				_audioSourceActivePoolParameters[i][4] = (int)(p_volume * _volumeIntegerBase);
+				_audioSourceActivePool[i].volume = (((float)_audioSourceActivePoolParameters[i][4] / _volumeIntegerBase) * masterVolume) * p_volume;
 			}
 		}
 	}
@@ -338,8 +338,12 @@ public class AudioManagerSingleton : MonoBehaviour {
 	{
 		for (int i = 0; i < _audioSourceActivePoolParameters.Count; i++)
 		{
-			_audioSourceActivePoolParameters[i][4] = (int)(masterVolume * _volumeIntegerBase);
-			_audioSourceActivePool[i].volume = ((float)_audioSourceActivePoolParameters[i][4] / _volumeIntegerBase) * masterVolume;
+//			_audioSourceActivePoolParameters[i][4] = (int)(masterVolume * _volumeIntegerBase);
+			if ((AudioType)_audioSourceActivePoolParameters [i] [2] == AudioManagerSingleton.AudioType.MUSIC) {
+				_audioSourceActivePool [i].volume = (((float)_audioSourceActivePoolParameters [i] [4] / _volumeIntegerBase) * masterVolume )* musicVolume;
+			} else {
+				_audioSourceActivePool [i].volume = (((float)_audioSourceActivePoolParameters [i] [4] / _volumeIntegerBase) * masterVolume) * sfxVolume;
+			}
 		}
 	}
 }
