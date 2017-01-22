@@ -10,10 +10,11 @@ public class AudioManagerSingleton : MonoBehaviour {
 	public enum AudioClipName
     {
         MENU_SOUND,
-        ANOTHER_TEST_SOUND,
-        TEST_MUSIC,
-        COOL_MUSIC,
-        ULTIMATE_TEST_SOUND
+        WAVE_1,
+		DEAD_1,
+		DEAD_2,
+		NARRATIVE,
+		TRILHA
     }
 
     /// <summary>
