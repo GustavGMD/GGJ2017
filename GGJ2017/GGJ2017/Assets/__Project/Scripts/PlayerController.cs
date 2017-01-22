@@ -13,6 +13,9 @@ public class PlayerController : MonoBehaviour {
     public Collider2D playercollider;
     public bool dead;
     public Rigidbody2D rb;
+
+	public static int backgroundId = -1;
+
     // Use this for initialization
     void Awake() {
         playercollider = GetComponent<Collider2D>();
@@ -25,6 +28,7 @@ public class PlayerController : MonoBehaviour {
             startPoint.SetActive(false);
         }
         anim.ResetTrigger("died");
+		playTheme ();
     }
 	
 	// Update is called once per frame
@@ -46,6 +50,20 @@ public class PlayerController : MonoBehaviour {
             anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
         }
     }
+
+	public bool menu = false;
+	private int musica;
+	void playTheme(){
+		if (!menu) {
+			if (backgroundId != -1) {
+				AudioManagerSingleton.instance.ChangeVolume ( backgroundId,1);
+			} else {
+				backgroundId = AudioManagerSingleton.instance.PlaySound (
+					AudioManagerSingleton.AudioClipName.BACKGROUND, AudioManagerSingleton.AudioType.MUSIC, true, 1);
+			}
+		} 
+
+	}
 		
         //Time.timeScale = 0;
     public void DefeatRoutine() {
@@ -54,8 +72,9 @@ public class PlayerController : MonoBehaviour {
         rb.Sleep();
         dead = true;
         StartCoroutine(WaitSeconds(1.7f));
+		AudioManagerSingleton.instance.ChangeVolume ( backgroundId, 0.3f);
 		AudioManagerSingleton.instance.PlaySound (
-			AudioManagerSingleton.AudioClipName.DEAD_1, AudioManagerSingleton.AudioType.MUSIC, false, 1);
+			AudioManagerSingleton.AudioClipName.DEAD_1, AudioManagerSingleton.AudioType.MUSIC, false, 1.2f);
     }
 
     public IEnumerator WaitSeconds(float secs) {
@@ -71,7 +90,10 @@ public class PlayerController : MonoBehaviour {
     {
         if (collision.gameObject.tag == "levelGoal")
         {
+			AudioManagerSingleton.instance.ChangeVolume ( backgroundId,0.3f);
             victoryPanel.ShowGameOverPanel();
+			AudioManagerSingleton.instance.PlaySound (
+				AudioManagerSingleton.AudioClipName.WIN, AudioManagerSingleton.AudioType.SFX, false, 1);
         }
     }
 }

@@ -105,6 +105,9 @@ public class EnergyPulseParticle : MonoBehaviour {
         }
         else if (collision.gameObject.tag == "destructable")
         {
+			AudioManagerSingleton.instance.PlaySound (
+				AudioManagerSingleton.AudioClipName.WALL_BROKEN_3, AudioManagerSingleton.AudioType.SFX, false, 1.0f);
+			
             energyLevel -= collision.gameObject.GetComponent<Obstacle>().energyAbsorption;
             if (energyLevel <= 0)
             {

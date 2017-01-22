@@ -18,7 +18,13 @@ public class AudioManagerSingleton : MonoBehaviour {
 		TRILHA,
 		BUTTON_1,
 		BUTTON_2,
-		BUTTON_3
+		BUTTON_3,
+		WIN,
+		BACKGROUND,
+		WALL_BROKEN_1,
+		WALL_BROKEN_2,
+		WALL_BROKEN_3,
+		WALL_BROKEN_4
     }
 
     /// <summary>
