@@ -58,6 +58,15 @@ public class EnergyPulseManager : MonoBehaviour {
                 p_Object.SetActive(false);                
                 pulseParticlesActivePool.Remove(p_Object);
             };
+            __tempObject.GetComponent<EnergyPulseParticle>().onReadyToCollide += delegate ()
+            {
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), __tempObject.GetComponent<Collider2D>(), false);
+            };
+            __tempObject.GetComponent<EnergyPulseParticle>().onCollisionWithPlayer += delegate
+            {
+                gameObject.GetComponent<PlayerController>().DefeatRoutine();
+            };
+            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), __tempObject.GetComponent<Collider2D>(), true);
             pulseParticlesInactivePool.Add(__tempObject);
         }
     }
@@ -73,7 +82,7 @@ public class EnergyPulseManager : MonoBehaviour {
                 if (i == 0) __firstObject = pulseParticlesInactivePool[0];
                 float __angle = 2 * Mathf.PI * ((float)i / particlesPerPulse);
                 pulseParticlesInactivePool[0].SetActive(true);
-                pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().energyLevel = 2;
+                pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().energyLevel = 2;                
                 pulseParticlesInactivePool[0].GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * pulseForce;
                 GameObject[] lineVertices;
                 if (i > 0)
@@ -85,7 +94,8 @@ public class EnergyPulseManager : MonoBehaviour {
                     lineVertices = new GameObject[0];
                 }
                 pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().EmissionStarted(lineVertices);
-                pulseParticlesInactivePool[0].transform.position = (Vector2)transform.position + (new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * 1.05f);
+                //pulseParticlesInactivePool[0].transform.position = (Vector2)transform.position + (new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * 1.55f);
+                pulseParticlesInactivePool[0].transform.position = (Vector2)transform.position;
 
                 pulseParticlesActivePool.Add(pulseParticlesInactivePool[0]);
                 pulseParticlesInactivePool.RemoveAt(0);
