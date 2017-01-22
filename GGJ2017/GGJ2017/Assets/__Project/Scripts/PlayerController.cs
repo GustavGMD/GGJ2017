@@ -29,6 +29,8 @@ public class PlayerController : MonoBehaviour {
     {
         //Application.LoadLevel(Application.loadedLevel);
         panel.ShowGameOverPanel();
+		AudioManagerSingleton.instance.PlaySound (
+			AudioManagerSingleton.AudioClipName.DEAD_2, AudioManagerSingleton.AudioType.MUSIC, false, 1);
         //Time.timeScale = 0;
     }
 

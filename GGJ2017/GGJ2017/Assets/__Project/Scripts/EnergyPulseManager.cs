@@ -39,6 +39,9 @@ public class EnergyPulseManager : MonoBehaviour {
 			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				EmitParticles();
+				AudioManagerSingleton.instance.PlaySound (
+					AudioManagerSingleton.AudioClipName.WAVE_1, AudioManagerSingleton.AudioType.SFX, false, 1);
+				//Wave 2,7,8
 			}
 		}
     }
