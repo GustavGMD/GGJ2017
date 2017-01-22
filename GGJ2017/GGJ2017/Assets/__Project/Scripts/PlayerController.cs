@@ -10,9 +10,15 @@ public class PlayerController : MonoBehaviour {
     public Animator anim;
     public float verticalSpeed = 0;
     public float horizontalSpeed = 0;
-
+    public Collider2D playercollider;
+    public bool dead;
+    public Rigidbody2D rb;
     // Use this for initialization
     void Awake() {
+        playercollider = GetComponent<Collider2D>();
+        rb = GetComponent<Rigidbody2D>();
+        playercollider.enabled = true;
+        dead = false;
         GameObject startPoint = GameObject.Find("StartPoint");
         if (startPoint != null) {
             transform.position = startPoint.transform.position;
@@ -23,26 +29,29 @@ public class PlayerController : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		
-        horizontalSpeed = Input.GetAxis("Horizontal");
-        verticalSpeed = Input.GetAxis("Vertical");
-        transform.Translate(new Vector3(horizontalSpeed, verticalSpeed, 0) * Time.deltaTime * movementspeed);
+        if (!dead) {
+            horizontalSpeed = Input.GetAxis("Horizontal");
+            verticalSpeed = Input.GetAxis("Vertical");
+            transform.Translate(new Vector3(horizontalSpeed, verticalSpeed, 0) * Time.deltaTime * movementspeed);
 
-        if(horizontalSpeed > 0)
-        {
-            transform.localScale = new Vector3((Mathf.Abs(transform.localScale.x) * -1), transform.localScale.y, transform.localScale.z);
+            if (horizontalSpeed > 0)
+            {
+                transform.localScale = new Vector3((Mathf.Abs(transform.localScale.x) * -1), transform.localScale.y, transform.localScale.z);
+            }
+            else if (horizontalSpeed < 0)
+            {
+                transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
+            }
+            anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
+            anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
         }
-        else if(horizontalSpeed < 0)
-        {
-            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
-        }
-        anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
-        anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
     }
 		
         //Time.timeScale = 0;
     public void DefeatRoutine() {
         anim.SetTrigger("died");
+        playercollider.enabled = false;
+        rb.Sleep();
         StartCoroutine(WaitSeconds(1.7f));
 		AudioManagerSingleton.instance.PlaySound (
 			AudioManagerSingleton.AudioClipName.DEAD_1, AudioManagerSingleton.AudioType.MUSIC, false, 1);
