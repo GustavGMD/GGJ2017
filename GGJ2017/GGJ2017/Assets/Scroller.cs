@@ -19,12 +19,12 @@ public class Scroller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey (KeyCode.Space)) {
-			transform.Translate (Vector3.up * 300 * Time.deltaTime);
+			transform.Translate (Vector3.up * 350 * Time.deltaTime);
 		} else {
 			transform.Translate (Vector3.up * movementspeed * Time.deltaTime);
 		}
 
-		if( transform.position.y >= 1200){
+		if( transform.position.y >= 1400){
 			SceneManager.LoadScene ("Ingame");
 		}
 	}

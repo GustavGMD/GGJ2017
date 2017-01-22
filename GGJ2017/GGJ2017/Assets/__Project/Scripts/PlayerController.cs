@@ -5,45 +5,34 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float movementspeed;
-    public ShowPanels panel;
+    public ShowPanels defeatPanel;
+    public ShowPanels victoryPanel;
     public Animator anim;
+    public float verticalSpeed = 0;
+    public float horizontalSpeed = 0;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
+        GameObject startPoint = GameObject.Find("StartPoint");
+        transform.position = startPoint.transform.position;
+        startPoint.SetActive(false);
     }
 	
 	// Update is called once per frame
 	void Update () {
 		
-		if(Input.GetAxis("Horizontal") < 0){
-			transform.Translate (Vector3.left * movementspeed * Time.deltaTime);
-            anim.SetFloat("horizontalspeed", GetComponent<Rigidbody2D>().velocity.x);
-		}
+        horizontalSpeed = Input.GetAxis("Horizontal");
+        verticalSpeed = Input.GetAxis("Vertical");
+        transform.Translate(new Vector3(horizontalSpeed, verticalSpeed, 0) * Time.deltaTime * movementspeed);
 
-		if(Input.GetAxis("Vertical") > 0)
-        {
-			transform.Translate (Vector3.up * movementspeed * Time.deltaTime);
-            anim.SetFloat("verticalspeed", GetComponent<Rigidbody2D>().velocity.y);
-        }
-
-		if(Input.GetAxis("Vertical") < 0)
-        {
-			transform.Translate (Vector3.down * movementspeed * Time.deltaTime);
-            anim.SetFloat("verticalspeed", GetComponent<Rigidbody2D>().velocity.y);
-        }
-
-		if(Input.GetAxis("Horizontal") > 0){
-			transform.Translate (Vector3.right * movementspeed * Time.deltaTime);
-            anim.SetFloat("horizontalspeed", GetComponent<Rigidbody2D>().velocity.x);
-        }
-
-        anim.SetFloat("movementspeed", Mathf.Abs(GetComponent<Rigidbody2D>().velocity.magnitude));
-	}
+        anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
+        anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
+    }
 
     public void DefeatRoutine()
     {
         //Application.LoadLevel(Application.loadedLevel);
-        panel.ShowGameOverPanel();
+        defeatPanel.ShowGameOverPanel();
         //Time.timeScale = 0;
     }
 
@@ -53,6 +42,10 @@ public class PlayerController : MonoBehaviour {
         {
             //kill the player? Maybe this is better done at player's script...
             DefeatRoutine();
+        }
+        else if (collision.gameObject.tag == "levelGoal")
+        {
+            victoryPanel.ShowGameOverPanel();
         }
     }
 }

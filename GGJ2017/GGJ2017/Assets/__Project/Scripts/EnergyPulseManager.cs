@@ -36,11 +36,7 @@ public class EnergyPulseManager : MonoBehaviour {
 				EmitParticles ();
 			}
 		} else {
-			if (Input.GetKeyDown(KeyCode.E))
-			{
-				EmitParticles();
-			}
-			if (Input.GetMouseButtonDown(0))
+			if (Input.GetKeyDown(KeyCode.Space))
 			{
 				EmitParticles();
 			}
@@ -89,7 +85,7 @@ public class EnergyPulseManager : MonoBehaviour {
                     lineVertices = new GameObject[0];
                 }
                 pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().EmissionStarted(lineVertices);
-                pulseParticlesInactivePool[0].transform.position = (Vector2)transform.position + (new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * 0.70f);
+                pulseParticlesInactivePool[0].transform.position = (Vector2)transform.position + (new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * 1.05f);
 
                 pulseParticlesActivePool.Add(pulseParticlesInactivePool[0]);
                 pulseParticlesInactivePool.RemoveAt(0);
