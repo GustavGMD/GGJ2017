@@ -40,6 +40,5 @@ public class SetAudioLevels : MonoBehaviour {
 			AudioManagerSingleton.instance.ChangeVolume();
 		}
 	}
-
-
+    
 }

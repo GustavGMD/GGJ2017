@@ -18,6 +18,7 @@ public class MapEditorBrushController : MonoBehaviour {
     private MapEditorTileDescriptor descriptor;
     public GameObject gridLinePrefab;
     public GameObject uiPanel;
+    
 
     public InputField gridSizeInput;
     
@@ -25,15 +26,15 @@ public class MapEditorBrushController : MonoBehaviour {
     public Dropdown brushDropdown;
 
     private Dictionary<KeyCode, int> keyBrushes = new Dictionary<KeyCode, int>();
+    private TileDescriptorList descriptorList = null;
 
- 
     public void listBrushes()
     {
         brushDropdown.ClearOptions();
 
         List<Dropdown.OptionData> optionList = new List<Dropdown.OptionData>();
         int i = 1;
-        foreach(MapEditorTileDescriptor descriptor in mapEditorController.tileDescriptors)
+        foreach(MapEditorTileDescriptor descriptor in descriptorList.tileDescriptors)
         {
             Dropdown.OptionData data = new Dropdown.OptionData();
             data.image = descriptor.icon;
@@ -103,6 +104,11 @@ public class MapEditorBrushController : MonoBehaviour {
     }
     void Start()
     {
+        descriptorList = GameObject.FindObjectOfType<TileDescriptorList>();
+        if(descriptorList == null)
+        {
+            Debug.Log("Tile Descriptor List not found");
+        }
         updateGrid();
         mapEditorController = FindObjectOfType<MapEditorController>();
         listBrushes();
@@ -156,13 +162,13 @@ public class MapEditorBrushController : MonoBehaviour {
             brush--;
             if(brush < 0)
             {
-                brush = mapEditorController.tileDescriptors.Length - 1;
+                brush = descriptorList.tileDescriptors.Length - 1;
             }
         }
         if (Input.GetAxis("Mouse ScrollWheel") > 0)
         {
             brush++;
-            if(brush > mapEditorController.tileDescriptors.Length-1)
+            if(brush > descriptorList.tileDescriptors.Length-1)
             {
                 brush = 0;
             }
@@ -248,7 +254,7 @@ public class MapEditorBrushController : MonoBehaviour {
             Destroy(brushInstance);
         }
         
-        if (mapEditorController.tileDescriptors.Length <= brush)
+        if (descriptorList.tileDescriptors.Length <= brush)
         {
             brush = -1;
         }
@@ -263,7 +269,7 @@ public class MapEditorBrushController : MonoBehaviour {
         }
         else
         {
-            descriptor = mapEditorController.tileDescriptors[brush];
+            descriptor = descriptorList.tileDescriptors[brush];
             brushInstance = Instantiate(descriptor.prefab);
             brushDropdown.value = brush;
         }
