@@ -52,6 +52,7 @@ public class PlayerController : MonoBehaviour {
         anim.SetTrigger("died");
         playercollider.enabled = false;
         rb.Sleep();
+        dead = true;
         StartCoroutine(WaitSeconds(1.7f));
 		AudioManagerSingleton.instance.PlaySound (
 			AudioManagerSingleton.AudioClipName.DEAD_1, AudioManagerSingleton.AudioType.MUSIC, false, 1);
