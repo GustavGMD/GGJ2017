@@ -5,7 +5,8 @@ using UnityEngine;
 public class PlayerController : MonoBehaviour {
 
 	public float movementspeed;
-    public ShowPanels panel;
+    public ShowPanels defeatPanel;
+    public ShowPanels victoryPanel;
     public Animator anim;
     public float verticalSpeed = 0;
     public float horizontalSpeed = 0;
@@ -28,7 +29,7 @@ public class PlayerController : MonoBehaviour {
     public void DefeatRoutine()
     {
         //Application.LoadLevel(Application.loadedLevel);
-        panel.ShowGameOverPanel();
+        defeatPanel.ShowGameOverPanel();
         //Time.timeScale = 0;
     }
 
@@ -38,6 +39,10 @@ public class PlayerController : MonoBehaviour {
         {
             //kill the player? Maybe this is better done at player's script...
             DefeatRoutine();
+        }
+        else if (collision.gameObject.tag == "levelGoal")
+        {
+            victoryPanel.ShowGameOverPanel();
         }
     }
 }
