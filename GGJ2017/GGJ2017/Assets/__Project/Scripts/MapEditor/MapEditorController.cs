@@ -5,44 +5,42 @@ using UnityEngine.UI;
 using System.IO;
 
 public class MapEditorController : MonoBehaviour {
-    public string directory;
-    public string loadMapName;
+    
     public InputField fileNameInputField;
     public Dropdown fileNameLoadDropdown;
-    public MapEditorTileDescriptor[] tileDescriptors = new MapEditorTileDescriptor[0];
-    private List<GameObject> objects = new List<GameObject>();
     public List<GameObject>[] layers = new List<GameObject>[5];
-   
     public Toggle[] layerToggles;
     public Dropdown layerDropdown;
     public int currentLayer = 0;
+
+    private TileDescriptorList descriptorList;
+    private string directory = "maps";
 
     void Awake()
     {
         if (Application.loadedLevelName != "MapEditor")
         {
+            Debug.LogError("Esse componnente não deveria estar nessa cena! Remova-o e adicione o prefab TileDescriptorList");
             GetComponent<MapEditorBrushController>().enabled = false;
         }
     }
 	// Use this for initialization
 	void Start ()
     {
+
+        descriptorList = FindObjectOfType<TileDescriptorList>();
+        if(descriptorList == null)
+        {
+            Debug.Log("tile descriptor list not found");
+        }
         for(int i = 0; i < layers.Length; i++)
         {
             layers[i] = new List<GameObject>();
         }
-        if(Application.loadedLevelName == "MapEditor")
-        {
-            loadMapList();
-            LayerMarked();
-            LayerSelected();
 
-        }
-        else
-        {
-            //LoadWithName(loadMapName);
-        }
-        
+        loadMapList();
+        LayerMarked();
+        LayerSelected();
     }
 
     void loadMapList()
@@ -166,7 +164,7 @@ public class MapEditorController : MonoBehaviour {
 
     public GameObject instantiateWithType(string typeString)
     {
-        foreach (MapEditorTileDescriptor descriptor in tileDescriptors)
+        foreach (MapEditorTileDescriptor descriptor in descriptorList.tileDescriptors)
         {
             if(descriptor.type == typeString)
             {
