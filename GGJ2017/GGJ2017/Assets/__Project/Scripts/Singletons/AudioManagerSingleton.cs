@@ -12,7 +12,9 @@ public class AudioManagerSingleton : MonoBehaviour {
         MENU_SOUND,
         WAVE_1,
 		DEAD_1,
-		DEAD_2
+		DEAD_2,
+		NARRATIVE,
+		TRILHA
     }
 
     /// <summary>

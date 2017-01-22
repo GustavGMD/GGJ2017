@@ -5,14 +5,20 @@ using UnityEngine.SceneManagement;
 
 public class Scroller : MonoBehaviour {
 
-	public string[] intro;
-	public float off;
-	public float speed = 100;
 
-	public int movementspeed=100;
+	public float movementspeed = 0.0f;
 
 	// Use this for initialization
 	void Start () {
+		AudioManagerSingleton.instance.PlaySound (
+			AudioManagerSingleton.AudioClipName.TRILHA, AudioManagerSingleton.AudioType.MUSIC, false, 0.3f);
+		StartCoroutine (Example());
+	}
+
+	IEnumerator Example() {
+		yield return new WaitForSeconds(7);
+		AudioManagerSingleton.instance.PlaySound (
+			AudioManagerSingleton.AudioClipName.NARRATIVE, AudioManagerSingleton.AudioType.MUSIC, false, 1);
 		
 	}
 	
