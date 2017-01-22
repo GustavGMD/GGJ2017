@@ -28,6 +28,10 @@ public class MapEditorBrushController : MonoBehaviour {
     private Dictionary<KeyCode, int> keyBrushes = new Dictionary<KeyCode, int>();
     private TileDescriptorList descriptorList = null;
 
+    private Vector3 areaStart = new Vector3();
+    public bool onArea = false;
+    
+
     public void listBrushes()
     {
         brushDropdown.ClearOptions();
@@ -145,10 +149,6 @@ public class MapEditorBrushController : MonoBehaviour {
             if(Input.GetKeyDown(keyCodes[i]))
             {
                 brush = keyBrushes[keyCodes[i]];
-                if (Input.GetKey(KeyCode.LeftShift))
-                {
-                    brush += keyCodes.Count;
-                }
                 Debug.Log("atualizando key: " + brush);
             }
         }
@@ -208,17 +208,32 @@ public class MapEditorBrushController : MonoBehaviour {
         position.z = -mapEditorController.currentLayer ;
         brushInstance.transform.position = position;
         lockGrid();
-        if (Input.GetMouseButton(0))
-        {        
-            if(mapEditorController.objectsInArea(brushInstance.transform.position, gridSize).Count == 0)
+        
+        if (Input.GetKey(KeyCode.LeftShift) && Input.GetMouseButtonDown(0))
+        {
+            areaStart = brushInstance.transform.position;
+            onArea = true;
+        }
+        if(onArea)
+        {
+            if ((!Input.GetKey(KeyCode.LeftShift) || Input.GetMouseButtonUp(0)))
+            {
+                onArea = false;
+                paintArea(areaStart, brushInstance.transform.position);
+            }
+        }
+        else
+        {
+            if (Input.GetMouseButton(0))
             {
                 paint();
             }
-        }
-        if (Input.GetMouseButton(1))
-        {
-            Debug.Log(brushInstance.transform.position);
-            mapEditorController.removeInArea(brushInstance.transform.position, gridSize);
+
+            if (Input.GetMouseButton(1))
+            {
+                Debug.Log(brushInstance.transform.position);
+                mapEditorController.removeInArea(brushInstance.transform.position, gridSize);
+            }
         }
     }
 
@@ -237,12 +252,47 @@ public class MapEditorBrushController : MonoBehaviour {
         brushInstance.transform.position = pos;
     }
 
+    void paintArea(Vector3 start, Vector3 end)
+    {
+
+        Vector3 distance = end - start;
+        distance.x = Mathf.Abs(distance.x) + 1;
+        distance.y = Mathf.Abs(distance.y) + 1;
+        int columns = (int) Mathf.Ceil(distance.x / gridSize);
+        int lines = (int) Mathf.Ceil(distance.y / gridSize);
+        int oldBrush = brush;
+
+        Debug.Log(columns + ", " + lines);
+        for(int i = 0; i < lines; i++)
+        {
+            for(int j = 0; j < columns; j++)
+            {
+                brushInstance.transform.position = new Vector3(start.x + (j * gridSize), start.y - (i * gridSize), 0);
+                lockGrid();
+                paint();
+                brush++;
+                brushChanged();
+            }
+        }
+        brush = oldBrush;
+        brushChanged();
+    }
+
     void paint()
     {
+        if (mapEditorController.objectsInArea(brushInstance.transform.position, gridSize).Count != 0)
+        {
+            return;
+        }
 
         GameObject go = mapEditorController.instantiateWithType(descriptor.type);
         go.transform.position = 
             new Vector3(brushInstance.transform.position.x, brushInstance.transform.position.y, go.transform.position.z);
+
+        if(Input.GetKey(KeyCode.Q))
+        {
+            brush++;
+        }
         
     }
 
