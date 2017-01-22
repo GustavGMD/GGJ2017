@@ -12,10 +12,13 @@ public class PlayerController : MonoBehaviour {
     public float horizontalSpeed = 0;
 
     // Use this for initialization
-    void Awake () {
+    void Awake() {
         GameObject startPoint = GameObject.Find("StartPoint");
-        transform.position = startPoint.transform.position;
-        startPoint.SetActive(false);
+        if (startPoint != null) {
+            transform.position = startPoint.transform.position;
+            startPoint.SetActive(false);
+        }
+        anim.ResetTrigger("died");
     }
 	
 	// Update is called once per frame
@@ -29,11 +32,18 @@ public class PlayerController : MonoBehaviour {
         anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
     }
 
-    public void DefeatRoutine()
-    {
-        //Application.LoadLevel(Application.loadedLevel);
+    public void DefeatRoutine() {
+        anim.SetTrigger("died");
+        StartCoroutine(WaitSeconds(1.7f));
+    }
+
+    public IEnumerator WaitSeconds(float secs) {
+        yield return new WaitForSeconds(secs);
+        ContinueDeath();
+    }
+
+    public void ContinueDeath() {
         defeatPanel.ShowGameOverPanel();
-        //Time.timeScale = 0;
     }
 
     public void OnCollisionEnter2D(Collision2D collision)
