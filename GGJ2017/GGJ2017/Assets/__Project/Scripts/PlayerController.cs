@@ -30,11 +30,11 @@ public class PlayerController : MonoBehaviour {
 
         if(horizontalSpeed > 0)
         {
-            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3((Mathf.Abs(transform.localScale.x) * -1), transform.localScale.y, transform.localScale.z);
         }
         else if(horizontalSpeed < 0)
         {
-            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+            transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
         }
         anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
         anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
