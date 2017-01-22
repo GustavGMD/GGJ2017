@@ -47,7 +47,7 @@ public class PlayerController : MonoBehaviour {
                 transform.localScale = new Vector3(Mathf.Abs(transform.localScale.x), transform.localScale.y, transform.localScale.z);
             }
             anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
-            anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
+            anim.SetFloat("verticalspeed", (verticalSpeed/2) + 0.5f);
         }
     }
 
