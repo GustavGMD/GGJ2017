@@ -57,6 +57,8 @@ public class EnergyPulseManager : MonoBehaviour {
             __tempObject.GetComponent<EnergyPulseParticle>().onDestroy += delegate(GameObject p_Object)
             {
                 //remove from active pool and add to inactive pool
+                p_Object.transform.position = transform.position;
+                p_Object.GetComponent<Rigidbody2D>().Sleep();
                 pulseParticlesInactivePool.Add(p_Object);
                 p_Object.SetActive(false);                
                 pulseParticlesActivePool.Remove(p_Object);
@@ -68,8 +70,7 @@ public class EnergyPulseManager : MonoBehaviour {
             __tempObject.GetComponent<EnergyPulseParticle>().onCollisionWithPlayer += delegate
             {
                 gameObject.GetComponent<PlayerController>().DefeatRoutine();
-            };
-            Physics2D.IgnoreCollision(GetComponent<Collider2D>(), __tempObject.GetComponent<Collider2D>(), true);
+            };            
             pulseParticlesInactivePool.Add(__tempObject);
         }
     }
@@ -85,8 +86,10 @@ public class EnergyPulseManager : MonoBehaviour {
                 if (i == 0) __firstObject = pulseParticlesInactivePool[0];
                 float __angle = 2 * Mathf.PI * ((float)i / particlesPerPulse);
                 pulseParticlesInactivePool[0].SetActive(true);
-                pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().energyLevel = 2;                
+                pulseParticlesInactivePool[0].GetComponent<EnergyPulseParticle>().energyLevel = 2;
+                pulseParticlesInactivePool[0].GetComponent<Rigidbody2D>().WakeUp();
                 pulseParticlesInactivePool[0].GetComponent<Rigidbody2D>().velocity = new Vector2(Mathf.Cos(__angle), Mathf.Sin(__angle)) * pulseForce;
+                Physics2D.IgnoreCollision(GetComponent<Collider2D>(), pulseParticlesInactivePool[0].GetComponent<Collider2D>(), true);
                 GameObject[] lineVertices;
                 if (i > 0)
                 {
