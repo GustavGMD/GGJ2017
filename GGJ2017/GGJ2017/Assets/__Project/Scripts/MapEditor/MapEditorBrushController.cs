@@ -18,6 +18,8 @@ public class MapEditorBrushController : MonoBehaviour {
     private MapEditorTileDescriptor descriptor;
     public GameObject gridLinePrefab;
     public GameObject uiPanel;
+
+    public InputField gridSizeInput;
     
 
     public Dropdown brushDropdown;
@@ -42,14 +44,39 @@ public class MapEditorBrushController : MonoBehaviour {
         }
         brushDropdown.AddOptions(optionList);
     }
-    void drawGrid()
+
+    public void gridInputChanged()
     {
-        //destroy old grid
+        string gridSizetext = gridSizeInput.text;
+        float n;
+        if(!float.TryParse(gridSizetext, out n))
+        {
+            Debug.Log("tamanho de grid inválido");
+        }
+        else
+        {
+            gridSize = n;
+        }
+
+        updateGrid();
+    }
+    public void updateGrid()
+    {
+        gridSizeInput.text = gridSize.ToString();
+        drawGrid();
+    }
+
+    void clearGrid()
+    {
         Transform t = transform.FindChild("grid");
-        if(t != null)
+        if (t != null)
         {
             Destroy(t.gameObject);
         }
+    }
+    void drawGrid()
+    {
+        clearGrid();
         
         GameObject gridObject = new GameObject("grid");
         gridObject.transform.parent = transform;
@@ -76,7 +103,7 @@ public class MapEditorBrushController : MonoBehaviour {
     }
     void Start()
     {
-        drawGrid();
+        updateGrid();
         mapEditorController = FindObjectOfType<MapEditorController>();
         listBrushes();
         KeyCode[] keycodes =
@@ -192,11 +219,15 @@ public class MapEditorBrushController : MonoBehaviour {
     
     void lockGrid()
     {
-        float halfGridSize = gridSize / 2;
+        if(gridSize == 0)
+        {
+            return;
+        }
+        float halfGridSize = gridSize / 2.0f;
         
         Vector3 pos = brushInstance.transform.position;
-        pos.x = (Mathf.Floor(pos.x / gridSize)) + halfGridSize;
-        pos.y = (Mathf.Floor(pos.y / gridSize)) + halfGridSize;
+        pos.x = ((Mathf.Floor(pos.x / gridSize)) * gridSize) + halfGridSize;
+        pos.y = ((Mathf.Floor(pos.y / gridSize)) * gridSize) + halfGridSize;
         brushInstance.transform.position = pos;
     }
 
