@@ -2,17 +2,17 @@
 using System.Collections.Generic;
 using UnityEngine;
 using System.IO;
-using UnityEngine;
 using UnityEditor;
 
 
 public class MapLoader {
     static string directory = "maps";
 
-    static MapEditorController controller = null;
+    static TileDescriptorList descriptorList = null;
     static int currentLayer = 0;
     static List<GameObject>[] layers = new List<GameObject>[5];
     static GameObject mapParent = null;
+
     [MenuItem("Level/level1")]
     private static void NewMenuOption()
     {
@@ -75,11 +75,11 @@ public class MapLoader {
             layers[i] = new List<GameObject>();
         }
 
-        controller = GameObject.FindObjectOfType<MapEditorController>();
+        descriptorList = GameObject.FindObjectOfType<TileDescriptorList>();
 
-        if (controller == null)
+        if (descriptorList == null)
         {
-            Debug.Log("MapEditorController não encontrado");
+            Debug.Log("TileDescriptorList não encontrado");
             return layers;
         }
 
@@ -131,14 +131,14 @@ public class MapLoader {
             return null;
         }
         
-     go.transform.position = new Vector3(x, y, go.transform.position.z);
+        go.transform.position = new Vector3(x, y, go.transform.position.z);
 
         return go;
     }
 
     public static GameObject instantiateWithType(string typeString)
     {
-        foreach (MapEditorTileDescriptor descriptor in controller.tileDescriptors)
+        foreach (MapEditorTileDescriptor descriptor in descriptorList.tileDescriptors)
         {
             if (descriptor.type == typeString)
             {
@@ -146,6 +146,7 @@ public class MapLoader {
                 MapEditorTile tile = go.AddComponent<MapEditorTile>();
                 go.transform.position = new Vector3(go.transform.position.x, go.transform.position.y, -currentLayer);
                 tile.type = typeString;
+                go.name = descriptor.prefab.name;
                 layers[currentLayer].Add(go);
                 go.transform.parent = mapParent.transform;
                 return go;
