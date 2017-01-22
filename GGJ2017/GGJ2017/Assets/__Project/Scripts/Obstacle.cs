@@ -10,7 +10,7 @@ public class Obstacle : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		
+        //GetComponent<Renderer>().sortingOrder = -10000;
 	}
 	
 	// Update is called once per frame

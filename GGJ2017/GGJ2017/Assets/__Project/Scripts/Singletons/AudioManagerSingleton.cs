@@ -2,6 +2,7 @@
 using System.Collections;
 using System.Collections.Generic;
 
+
 public class AudioManagerSingleton : MonoBehaviour {
 
     /// <summary>
@@ -14,7 +15,10 @@ public class AudioManagerSingleton : MonoBehaviour {
 		DEAD_1,
 		DEAD_2,
 		NARRATIVE,
-		TRILHA
+		TRILHA,
+		BUTTON_1,
+		BUTTON_2,
+		BUTTON_3
     }
 
     /// <summary>
@@ -58,8 +62,8 @@ public class AudioManagerSingleton : MonoBehaviour {
         {
             if (_instance == null)
             {        
-                _instance = SafeInstantiate();
-                if (_instance != null)
+				_instance = SafeInstantiate();
+				DontDestroyOnLoad (_instance);
                 {
                     _instance.Initialize();
                 }
@@ -168,6 +172,21 @@ public class AudioManagerSingleton : MonoBehaviour {
             }
         }
     }
+
+	//Stop Sound Group
+	public void StopSound(AudioType type)
+	{
+		for (int i = 0; i < _audioSourceActivePoolParameters.Count; i++)
+		{
+			if ((AudioType)_audioSourceActivePoolParameters[i][2] == type)
+			{
+				_audioSourceActivePool[i].Stop();
+				RemoveFromActiveList(i);
+			}
+		}
+	}
+
+
 
     /// <summary>
     /// This method runs through the Active Pool searching for finished AudioClips, removing them from that pool and making them available again at the Inactive Pool.
