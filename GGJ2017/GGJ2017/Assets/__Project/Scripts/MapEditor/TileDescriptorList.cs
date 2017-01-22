@@ -4,4 +4,5 @@ using UnityEngine;
 
 public class TileDescriptorList : MonoBehaviour {
     public MapEditorTileDescriptor[] tileDescriptors = new MapEditorTileDescriptor[0];
+
 }
