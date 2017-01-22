@@ -28,6 +28,14 @@ public class PlayerController : MonoBehaviour {
         verticalSpeed = Input.GetAxis("Vertical");
         transform.Translate(new Vector3(horizontalSpeed, verticalSpeed, 0) * Time.deltaTime * movementspeed);
 
+        if(horizontalSpeed > 0)
+        {
+            transform.localScale = new Vector3(-1, transform.localScale.y, transform.localScale.z);
+        }
+        else if(horizontalSpeed < 0)
+        {
+            transform.localScale = new Vector3(1, transform.localScale.y, transform.localScale.z);
+        }
         anim.SetFloat("horizontalspeed", Mathf.Abs(horizontalSpeed));
         anim.SetFloat("verticalspeed", Mathf.Abs(verticalSpeed));
     }
@@ -48,12 +56,7 @@ public class PlayerController : MonoBehaviour {
 
     public void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "pulseElement")
-        {
-            //kill the player? Maybe this is better done at player's script...
-            DefeatRoutine();
-        }
-        else if (collision.gameObject.tag == "levelGoal")
+        if (collision.gameObject.tag == "levelGoal")
         {
             victoryPanel.ShowGameOverPanel();
         }
