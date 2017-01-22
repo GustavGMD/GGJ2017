@@ -35,6 +35,7 @@ public class Scroller : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
 		if (Input.GetKey (KeyCode.Space)) {
+			AudioManagerSingleton.instance.StopSound (AudioManagerSingleton.AudioType.MUSIC);
 			SceneManager.LoadScene (nextLevel);
 		} else {
 			transform.Translate (Vector3.up * movementspeed * Time.deltaTime);
