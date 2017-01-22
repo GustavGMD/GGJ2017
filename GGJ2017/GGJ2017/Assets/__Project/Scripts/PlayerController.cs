@@ -12,7 +12,10 @@ public class PlayerController : MonoBehaviour {
     public float horizontalSpeed = 0;
 
     // Use this for initialization
-    void Start () {
+    void Awake () {
+        GameObject startPoint = GameObject.Find("StartPoint");
+        transform.position = startPoint.transform.position;
+        startPoint.SetActive(false);
     }
 	
 	// Update is called once per frame
