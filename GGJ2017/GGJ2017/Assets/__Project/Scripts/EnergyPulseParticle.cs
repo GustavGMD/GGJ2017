@@ -65,7 +65,7 @@ public class EnergyPulseParticle : MonoBehaviour {
     public void UpdateLine()
     {
         lineRenderer.SetPositions(GenerateLineVertices());
-        lineRenderer.material.color = new Color(1, 1, 1, 1);
+        //lineRenderer.material.color = new Color(1, 1, 1, 1);
         //lineRenderer.material.color = new Color(UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), UnityEngine.Random.Range(0f, 1f), 1 - (count / timeLimit));
     }
 
@@ -121,7 +121,7 @@ public class EnergyPulseParticle : MonoBehaviour {
     public void UpdateVelocity()
     {
         GetComponent<Rigidbody2D>().velocity = GetComponent<Rigidbody2D>().velocity.normalized * (energyLevel / 2) * pulseForce;
-        GetComponent<TrailRenderer>().material.color = new Color((((float)energyLevel / maximumEnergyLevel)/2) + 0.5f, 0, (float)energyLevel / maximumEnergyLevel, (((float)energyLevel / maximumEnergyLevel) / 4) + 0.75f);
+        //GetComponent<TrailRenderer>().material.color = new Color((((float)energyLevel / maximumEnergyLevel)/2) + 0.5f, 0, (float)energyLevel / maximumEnergyLevel, (((float)energyLevel / maximumEnergyLevel) / 4) + 0.75f);
     }
 
     public void OnDestroyRoutine()
